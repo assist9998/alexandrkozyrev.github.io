@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alexander Kozyrev — Business Automation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --black: #0e0e0d;
+    --white: #f9f7f4;
+    --gray: #8a8880;
+    --border: #e2dfd9;
+    --mid: #f3f1ed;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    color: var(--black);
+    font-size: 16px;
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 1.25rem 2.5rem;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(249,247,244,0.93);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s;
+  }
+  nav.scrolled { border-bottom-color: var(--border); }
+  .nav-logo { font-family: 'DM Serif Display', serif; font-size: 1.1rem; }
+  .nav-right { display: flex; align-items: center; gap: 1.5rem; }
+  .nav-link {
+    font-size: 0.82rem; font-weight: 400; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--gray); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-link:hover { color: var(--black); }
+  .lang-toggle {
+    display: flex; gap: 0; border: 1px solid var(--border); overflow: hidden;
+    border-radius: 2px;
+  }
+  .lang-btn {
+    font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 0.3rem 0.65rem;
+    background: none; border: none; cursor: pointer; color: var(--gray);
+    transition: background 0.15s, color 0.15s;
+  }
+  .lang-btn.active { background: var(--black); color: var(--white); }
+
+  /* SECTIONS */
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 2.5rem; }
+
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column;
+    justify-content: center; padding: 8rem 2.5rem 4rem;
+    max-width: 900px; margin: 0 auto;
+  }
+  .hero-tag {
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--gray);
+    margin-bottom: 2rem; display: flex; align-items: center; gap: 0.75rem;
+  }
+  .hero-tag::before { content:''; display:block; width:28px; height:1px; background:var(--gray); }
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    line-height: 1.08; font-weight: 400; letter-spacing: -0.02em;
+    margin-bottom: 2rem; max-width: 750px;
+  }
+  h1 em { font-style: italic; color: var(--gray); }
+  .hero-desc { font-size: 1.05rem; color: var(--gray); max-width: 480px; line-height: 1.75; margin-bottom: 3rem; }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    background: var(--black); color: var(--white);
+    padding: 0.85rem 1.75rem; font-size: 0.9rem; font-weight: 400;
+    text-decoration: none; letter-spacing: 0.03em; transition: opacity 0.2s;
+  }
+  .hero-cta:hover { opacity: 0.82; }
+  .arrow { transition: transform 0.2s; }
+  .hero-cta:hover .arrow { transform: translateX(4px); }
+
+  section { padding: 5rem 0; }
+  .section-label {
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--gray);
+    margin-bottom: 3rem; display: flex; align-items: center; gap: 0.75rem;
+  }
+  .section-label::before { content:''; display:block; width:20px; height:1px; background:var(--border); }
+
+  /* SERVICES */
+  .services {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2px; border: 1px solid var(--border);
+  }
+  .service-item {
+    padding: 2rem 1.75rem; border-right: 1px solid var(--border);
+    background: var(--white); transition: background 0.2s;
+  }
+  .service-item:last-child { border-right: none; }
+  .service-item:hover { background: var(--mid); }
+  .service-num { font-family: 'DM Serif Display', serif; font-size: 1.8rem; color: var(--border); display: block; margin-bottom: 1rem; }
+  .service-title { font-size: 0.95rem; font-weight: 500; margin-bottom: 0.6rem; }
+  .service-desc { font-size: 0.85rem; color: var(--gray); line-height: 1.65; }
+
+  /* HOW IT WORKS */
+  .how-wrap {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0; border: 1px solid var(--border);
+  }
+  .how-step {
+    padding: 2rem 1.75rem; border-right: 1px solid var(--border); position: relative;
+  }
+  .how-step:last-child { border-right: none; }
+  .how-arrow {
+    position: absolute; right: -14px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 1rem; color: var(--border); z-index: 2;
+    display: none;
+  }
+  @media (min-width: 600px) { .how-arrow { display: block; } }
+  .how-step:last-child .how-arrow { display: none; }
+  .how-icon { font-size: 1.4rem; margin-bottom: 1rem; display: block; }
+  .how-title { font-size: 0.9rem; font-weight: 500; margin-bottom: 0.5rem; }
+  .how-desc { font-size: 0.82rem; color: var(--gray); line-height: 1.6; }
+
+  /* CASES */
+  .cases { border-top: 1px solid var(--border); }
+  .case-item {
+    padding: 3rem 0; border-bottom: 1px solid var(--border);
+    display: grid; grid-template-columns: 1fr 1.8fr;
+    gap: 3rem; align-items: start;
+  }
+  @media (max-width: 640px) { .case-item { grid-template-columns: 1fr; gap: 1.5rem; } }
+  .case-index { font-family: 'DM Serif Display', serif; font-size: 0.9rem; color: var(--border); display: block; margin-bottom: 0.5rem; }
+  .case-client { font-size: 1.05rem; font-weight: 500; margin-bottom: 0.4rem; }
+  .case-location { font-size: 0.82rem; color: var(--gray); letter-spacing: 0.04em; }
+  .case-title { font-family: 'DM Serif Display', serif; font-size: 1.45rem; font-weight: 400; line-height: 1.3; margin-bottom: 1rem; }
+  .case-desc { font-size: 0.9rem; color: var(--gray); line-height: 1.75; margin-bottom: 1.5rem; }
+  .result-line {
+    font-size: 0.88rem; font-weight: 500; color: var(--black);
+    padding: 0.9rem 1.2rem; border-left: 2px solid var(--black);
+    margin-bottom: 1.5rem; background: var(--mid);
+  }
+  .case-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .tag {
+    font-size: 0.72rem; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; padding: 0.3rem 0.75rem;
+    border: 1px solid var(--border); color: var(--gray);
+  }
+
+  /* CONTACT */
+  .contact-wrap {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    gap: 2rem; padding: 4rem 0 2rem; border-top: 1px solid var(--border);
+  }
+  @media (max-width: 640px) { .contact-wrap { flex-direction: column; align-items: flex-start; } }
+  .contact-heading { font-family: 'DM Serif Display', serif; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.1; font-weight: 400; max-width: 420px; }
+  .contact-heading em { font-style: italic; color: var(--gray); }
+  .contact-btn {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    background: var(--black); color: var(--white);
+    padding: 1rem 2rem; font-size: 0.9rem; font-weight: 400;
+    text-decoration: none; white-space: nowrap; transition: opacity 0.2s;
+  }
+  .contact-btn:hover { opacity: 0.82; }
+
+  footer {
+    max-width: 900px; margin: 0 auto; padding: 1.5rem 2.5rem 3rem;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.78rem; color: var(--gray);
+  }
+
+  .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  [data-en], [data-ru] { transition: opacity 0.2s; }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <span class="nav-logo">Alexander Kozyrev</span>
+  <div class="nav-right">
+    <a href="#contact" class="nav-link" data-en="Get in touch" data-ru="Написать">Get in touch</a>
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('ru')">RU</button>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <p class="hero-tag fade-up" data-en="Business Automation · Remote" data-ru="Автоматизация бизнеса · Удалённо">Business Automation · Remote</p>
+  <h1 class="fade-up">
+    <span data-en>Your business runs.<br><em>Even when you don't.</em></span>
+    <span data-ru style="display:none">Ваш бизнес работает.<br><em>Даже когда вы нет.</em></span>
+  </h1>
+  <p class="hero-desc fade-up">
+    <span data-en>I build automation systems that handle customer inquiries, bookings, and internal workflows — 24/7, without your team lifting a finger.</span>
+    <span data-ru style="display:none">Строю системы автоматизации которые берут на себя обращения клиентов, записи и внутренние процессы — 24/7, без участия вашей команды.</span>
+  </p>
+  <a href="https://t.me/alexkozyrev94" target="_blank" class="hero-cta fade-up">
+    <span data-en>Let's talk</span><span data-ru style="display:none">Написать в Telegram</span> <span class="arrow">→</span>
+  </a>
+</div>
+
+<section>
+  <div class="wrap">
+    <p class="section-label" data-en="What I do" data-ru="Что делаю">What I do</p>
+    <div class="services">
+      <div class="service-item fade-up">
+        <span class="service-num">01</span>
+        <p class="service-title" data-en="Customer-facing bots" data-ru="Боты для клиентов">Customer-facing bots</p>
+        <p class="service-desc">
+          <span data-en>Telegram bots that answer FAQs, take bookings and qualify leads — 24/7, in any language.</span>
+          <span data-ru style="display:none">Телеграм-боты которые отвечают на вопросы, принимают записи и квалифицируют лиды — 24/7, на любом языке.</span>
+        </p>
+      </div>
+      <div class="service-item fade-up">
+        <span class="service-num">02</span>
+        <p class="service-title" data-en="Internal automation" data-ru="Внутренние процессы">Internal automation</p>
+        <p class="service-desc">
+          <span data-en>Eliminate manual, repetitive work inside your team — reports, notifications, data pipelines, integrations.</span>
+          <span data-ru style="display:none">Убираю ручную рутину внутри команды — отчёты, уведомления, обработка данных, интеграции между системами.</span>
+        </p>
+      </div>
+      <div class="service-item fade-up">
+        <span class="service-num">03</span>
+        <p class="service-title" data-en="Booking systems" data-ru="Системы записи">Booking systems</p>
+        <p class="service-desc">
+          <span data-en>Web forms in any language connected to your CRM, Google Sheets and instant admin alerts.</span>
+          <span data-ru style="display:none">Веб-формы на любом языке, подключённые к CRM, Google Sheets и мгновенным уведомлениям.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background: var(--mid); padding: 4rem 0;">
+  <div class="wrap">
+    <p class="section-label" data-en="How it works" data-ru="Как это работает">How it works</p>
+    <div class="how-wrap">
+      <div class="how-step fade-up">
+        <span class="how-arrow">→</span>
+        <span class="how-icon">💬</span>
+        <p class="how-title" data-en="Client writes" data-ru="Клиент пишет">Client writes</p>
+        <p class="how-desc">
+          <span data-en>In Telegram, WhatsApp or via a web form — any time of day.</span>
+          <span data-ru style="display:none">В Telegram, WhatsApp или через веб-форму — в любое время суток.</span>
+        </p>
+      </div>
+      <div class="how-step fade-up">
+        <span class="how-arrow">→</span>
+        <span class="how-icon">⚡</span>
+        <p class="how-title" data-en="Bot responds instantly" data-ru="Бот отвечает сразу">Bot responds instantly</p>
+        <p class="how-desc">
+          <span data-en>Answers questions, collects details, completes the booking — no human needed.</span>
+          <span data-ru style="display:none">Отвечает на вопросы, собирает данные, оформляет запись — без участия сотрудника.</span>
+        </p>
+      </div>
+      <div class="how-step fade-up">
+        <span class="how-arrow">→</span>
+        <span class="how-icon">📋</span>
+        <p class="how-title" data-en="Data is saved" data-ru="Данные сохранены">Data is saved</p>
+        <p class="how-desc">
+          <span data-en>Everything lands in Google Sheets, CRM or your preferred system automatically.</span>
+          <span data-ru style="display:none">Всё попадает в Google Sheets, CRM или нужную систему автоматически.</span>
+        </p>
+      </div>
+      <div class="how-step fade-up">
+        <span class="how-icon">🔔</span>
+        <p class="how-title" data-en="You get notified" data-ru="Вы получаете уведомление">You get notified</p>
+        <p class="how-desc">
+          <span data-en>Only when a real decision is needed. Everything else — handled.</span>
+          <span data-ru style="display:none">Только когда нужно ваше решение. Всё остальное — уже сделано.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="section-label" data-en="Work" data-ru="Проекты">Work</p>
+    <div class="cases">
+
+      <div class="case-item fade-up">
+        <div>
+          <span class="case-index">01</span>
+          <p class="case-client">Gorizont Education Centre</p>
+          <p class="case-location">Da Nang & Nha Trang · Vietnam</p>
+        </div>
+        <div>
+          <h2 class="case-title">
+            <span data-en>AI support bot for a Russian-speaking expat school</span>
+            <span data-ru style="display:none">ИИ-бот поддержки для русскоязычной школы экспатов</span>
+          </h2>
+          <div class="result-line">
+            <span data-en>Admin stopped answering the same questions at night and on weekends.</span>
+            <span data-ru style="display:none">Администратор перестал отвечать на одни и те же вопросы ночью и в выходные.</span>
+          </div>
+          <p class="case-desc">
+            <span data-en>A bilingual Telegram bot handles all parent inquiries about fees, schedule, meals and documents across two campuses. Registers children for trial lessons, collects contacts, and alerts administrators only when a human decision is needed.</span>
+            <span data-ru style="display:none">Двуязычный Telegram-бот обрабатывает все обращения родителей по стоимости, расписанию, питанию и документам на двух филиалах. Записывает детей на пробные занятия, собирает контакты и уведомляет администраторов только когда нужно решение человека.</span>
+          </p>
+          <div class="case-tags">
+            <span class="tag">Telegram bot</span>
+            <span class="tag">Python</span>
+            <span class="tag">Railway</span>
+            <span class="tag">2 branches</span>
+            <span class="tag">24/7</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="case-item fade-up">
+        <div>
+          <span class="case-index">02</span>
+          <p class="case-client">Little Artists · Trà Nôm Café</p>
+          <p class="case-location">Da Nang · Vietnam</p>
+        </div>
+        <div>
+          <h2 class="case-title">
+            <span data-en>Trilingual booking system for an art class</span>
+            <span data-ru style="display:none">Трёхъязычная система записи для арт-студии</span>
+          </h2>
+          <div class="result-line">
+            <span data-en>Registrations went from manual Zalo chats to fully automatic — zero admin involvement.</span>
+            <span data-ru style="display:none">Записи перешли с ручных переписок в Zalo на полный автомат — ноль участия администратора.</span>
+          </div>
+          <p class="case-desc">
+            <span data-en>Parents book children's art classes via a web form or Telegram bot in English, Vietnamese and Russian. Three class types with different pricing handled automatically. Every registration lands in Google Sheets with an instant Telegram notification.</span>
+            <span data-ru style="display:none">Родители записывают детей на занятия через веб-форму или Telegram-бота на английском, вьетнамском и русском. Три типа занятий с разными ценами обрабатываются автоматически. Каждая запись попадает в Google Sheets с мгновенным уведомлением.</span>
+          </p>
+          <div class="case-tags">
+            <span class="tag">Web form</span>
+            <span class="tag">Telegram bot</span>
+            <span class="tag">3 languages</span>
+            <span class="tag">Google Sheets</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="contact-wrap fade-up">
+      <h2 class="contact-heading">
+        <span data-en>Ready to automate<br>your <em>next bottleneck?</em></span>
+        <span data-ru style="display:none">Готовы убрать<br><em>ручную рутину?</em></span>
+      </h2>
+      <a href="https://t.me/alexkozyrev94" target="_blank" class="contact-btn">
+        <span data-en>Write on Telegram</span><span data-ru style="display:none">Написать в Telegram</span> →
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2025 Alexander Kozyrev</span>
+  <a href="https://t.me/alexkozyrev94" style="color:var(--gray);text-decoration:none;" target="_blank">@alexkozyrev94</a>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 40); });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 80); observer.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  function setLang(lang) {
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`).classList.add('active');
+
+    document.querySelectorAll('[data-en]').forEach(el => {
+      if (el.tagName === 'SPAN' && el.parentElement.querySelectorAll('[data-en],[data-ru]').length > 0) {
+        el.style.display = lang === 'en' ? '' : 'none';
+      } else if (!el.hasAttribute('data-ru')) {
+        el.textContent = el.getAttribute('data-en') && lang === 'en' ? el.getAttribute('data-en') : (el.getAttribute('data-ru') || el.textContent);
+      }
+    });
+
+    document.querySelectorAll('[data-ru]').forEach(el => {
+      if (el.tagName === 'SPAN' && el.parentElement.querySelectorAll('[data-en],[data-ru]').length > 0) {
+        el.style.display = lang === 'ru' ? '' : 'none';
+      }
+    });
+
+    document.querySelectorAll('p[data-en], p[data-ru], a[data-en], a[data-ru]').forEach(el => {
+      const key = lang === 'en' ? 'data-en' : 'data-ru';
+      if (el.hasAttribute(key)) el.textContent = el.getAttribute(key);
+    });
+
+    document.documentElement.lang = lang;
+  }
+</script>
+</body>
+</html>
