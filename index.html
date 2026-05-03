@@ -14,6 +14,9 @@
     --gray: #8a8880;
     --border: #e2dfd9;
     --mid: #f3f1ed;
+    --accent: #1D9E75;
+    --accent-light: #E1F5EE;
+    --accent-mid: #9FE1CB;
   }
   html { scroll-behavior: smooth; }
   body {
@@ -43,7 +46,7 @@
     text-transform: uppercase; color: var(--gray); text-decoration: none;
     transition: color 0.2s;
   }
-  .nav-link:hover { color: var(--black); }
+  .nav-link:hover { color: var(--accent); }
   .lang-toggle {
     display: flex; gap: 0; border: 1px solid var(--border); overflow: hidden;
     border-radius: 2px;
@@ -54,7 +57,7 @@
     background: none; border: none; cursor: pointer; color: var(--gray);
     transition: background 0.15s, color 0.15s;
   }
-  .lang-btn.active { background: var(--black); color: var(--white); }
+  .lang-btn.active { background: var(--accent); color: var(--white); }
 
   /* SECTIONS */
   .wrap { max-width: 900px; margin: 0 auto; padding: 0 2.5rem; }
@@ -80,11 +83,11 @@
   .hero-desc { font-size: 1.05rem; color: var(--gray); max-width: 480px; line-height: 1.75; margin-bottom: 3rem; }
   .hero-cta {
     display: inline-flex; align-items: center; gap: 0.6rem;
-    background: var(--black); color: var(--white);
+    background: var(--accent); color: var(--white);
     padding: 0.85rem 1.75rem; font-size: 0.9rem; font-weight: 400;
     text-decoration: none; letter-spacing: 0.03em; transition: opacity 0.2s;
   }
-  .hero-cta:hover { opacity: 0.82; }
+  .hero-cta:hover { opacity: 0.85; }
   .arrow { transition: transform 0.2s; }
   .hero-cta:hover .arrow { transform: translateX(4px); }
 
@@ -94,7 +97,7 @@
     text-transform: uppercase; color: var(--gray);
     margin-bottom: 3rem; display: flex; align-items: center; gap: 0.75rem;
   }
-  .section-label::before { content:''; display:block; width:20px; height:1px; background:var(--border); }
+  .section-label::before { content:''; display:block; width:20px; height:1px; background:var(--accent-mid); }
 
   /* SERVICES */
   .services {
@@ -147,14 +150,14 @@
   .case-desc { font-size: 0.9rem; color: var(--gray); line-height: 1.75; margin-bottom: 1.5rem; }
   .result-line {
     font-size: 0.88rem; font-weight: 500; color: var(--black);
-    padding: 0.9rem 1.2rem; border-left: 2px solid var(--black);
-    margin-bottom: 1.5rem; background: var(--mid);
+    padding: 0.9rem 1.2rem; border-left: 2px solid var(--accent);
+    margin-bottom: 1.5rem; background: var(--accent-light);
   }
   .case-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
   .tag {
     font-size: 0.72rem; font-weight: 500; letter-spacing: 0.08em;
     text-transform: uppercase; padding: 0.3rem 0.75rem;
-    border: 1px solid var(--border); color: var(--gray);
+    border: 1px solid var(--accent-mid); color: var(--accent);
   }
 
   /* CONTACT */
@@ -167,11 +170,11 @@
   .contact-heading em { font-style: italic; color: var(--gray); }
   .contact-btn {
     display: inline-flex; align-items: center; gap: 0.6rem;
-    background: var(--black); color: var(--white);
+    background: var(--accent); color: var(--white);
     padding: 1rem 2rem; font-size: 0.9rem; font-weight: 400;
     text-decoration: none; white-space: nowrap; transition: opacity 0.2s;
   }
-  .contact-btn:hover { opacity: 0.82; }
+  .contact-btn:hover { opacity: 0.85; }
 
   footer {
     max-width: 900px; margin: 0 auto; padding: 1.5rem 2.5rem 3rem;
@@ -245,7 +248,7 @@
   </div>
 </section>
 
-<section style="background: var(--mid); padding: 4rem 0;">
+<section style="background: var(--accent-light); padding: 4rem 0;">
   <div class="wrap">
     <p class="section-label" data-en="How it works" data-ru="Как это работает">How it works</p>
     <div class="how-wrap">
